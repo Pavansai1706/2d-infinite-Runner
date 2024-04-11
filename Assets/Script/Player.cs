@@ -12,8 +12,12 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private bool isGrounded;
 
+    [SerializeField] private int maxJumpValue;
+    int maxJump;
+
     private void Start()
     {
+        maxJump = maxJumpValue;
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -21,10 +25,21 @@ public class Player : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(GroundCheck.position, CheckRadius, whatIsGround);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0 )
+        {
+            maxJump--;
+            Jump();
+        }
+        else if(Input.GetKeyDown(KeyCode.Space) && maxJump == 0 && isGrounded)
         {
             Jump();
         }
+
+        if (isGrounded)
+        {
+            maxJump = maxJumpValue;
+        }
+
     }
     void Jump()
     {
