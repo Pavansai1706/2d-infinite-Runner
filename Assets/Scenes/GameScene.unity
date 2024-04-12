@@ -580,7 +580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 755231655}
   - component: {fileID: 755231657}
-  - component: {fileID: 755231656}
+  - component: {fileID: 755231658}
   m_Layer: 5
   m_Name: BackGround
   m_TagString: Untagged
@@ -613,7 +613,15 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &755231656
+--- !u!222 &755231657
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755231654}
+  m_CullTransparentMesh: 1
+--- !u!114 &755231658
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -643,14 +651,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!222 &755231657
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 755231654}
-  m_CullTransparentMesh: 1
 --- !u!1 &828064881
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,7 +666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &828064882
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1499,10 +1499,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1286733518}
-  GameOverPannal: {fileID: 828064881}
+  GameOverPanel: {fileID: 828064881}
   currentText: {fileID: 2089655431}
   highScoreText: {fileID: 1665012466}
   restartButton: {fileID: 2049017175}
+  mainCam: {fileID: 519420031}
+  backgroundImage: {fileID: 755231658}
+  colorToChange:
+  - {r: 0, g: 0.8, b: 0.8, a: 0}
+  - {r: 1, g: 0.9647059, b: 0, a: 0}
+  - {r: 1, g: 0, b: 0.4, a: 0}
+  - {r: 0.09803922, g: 0.8901961, b: 0.69411767, a: 0}
+  - {r: 1, g: 0.49803922, b: 0.2, a: 0}
 --- !u!4 &1484186924
 Transform:
   m_ObjectHideFlags: 0
