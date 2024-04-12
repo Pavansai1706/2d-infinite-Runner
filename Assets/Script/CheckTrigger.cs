@@ -1,24 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CheckTrigger : MonoBehaviour
 {
+    private const string COIN = "Coin";
+    private const string WALL = "Wall";
+
+    private GameManager gameManager;
+
+    // Method to set the GameManager instance
+    public void SetGameManager(GameManager manager)
+    {
+        gameManager = manager;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //coins
-        if(other.gameObject.tag == "Coin")
+        if (other.CompareTag(COIN))
         {
-            GameManager.Instance.AddScore();
-            Destroy(other.gameObject, 0.02f);
+            if (gameManager != null)
+            {
+                gameManager.AddScore(); // Calls the public method
+            }
+            Destroy(other.gameObject);
         }
 
-        //walls
-        if(other.gameObject.tag == "Wall")
+        if (other.CompareTag(WALL))
         {
-
-            GameManager.Instance.GameOver();
+            if (gameManager != null)
+            {
+                gameManager.GameOver(); // Calls the public method
+            }
         }
-    
     }
 }

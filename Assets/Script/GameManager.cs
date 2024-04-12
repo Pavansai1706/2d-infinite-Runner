@@ -19,8 +19,7 @@ public class GameManager : MonoBehaviour
 
     int score;
     [SerializeField] private TMP_Text scoreText;
-
-    [SerializeField] private GameObject GameOverPannal;
+    [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private TMP_Text currentText;
     [SerializeField] private TMP_Text highScoreText;
     [SerializeField] private Button restartButton;
@@ -29,12 +28,18 @@ public class GameManager : MonoBehaviour
     {
         score = 0;
         scoreText.text = score.ToString(); // Set score text to the initial score value
-        GameOverPannal.SetActive(false);
+        GameOverPanel.SetActive(false);
         restartButton.onClick.RemoveAllListeners();
         restartButton.onClick.AddListener(RestartLevel);
 
         currentText.text = PlayerPrefs.GetInt("Score").ToString();
         highScoreText.text = PlayerPrefs.GetInt("HighScore").ToString();
+
+        CheckTrigger checkTrigger = GetComponent<CheckTrigger>();
+        if (checkTrigger != null)
+        {
+            checkTrigger.SetGameManager(this);
+        }
     }
 
     public void AddScore()
@@ -45,7 +50,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-     if(score > PlayerPrefs.GetInt("HighScore"))
+        if (score > PlayerPrefs.GetInt("HighScore"))
         {
             PlayerPrefs.SetInt("HighScore", score);
         }
@@ -55,10 +60,10 @@ public class GameManager : MonoBehaviour
         currentText.text = PlayerPrefs.GetInt("Score").ToString();
         highScoreText.text = PlayerPrefs.GetInt("HighScore").ToString();
 
-        GameOverPannal.SetActive(true);
+        GameOverPanel.SetActive(true);
     }
 
-    public void RestartLevel()
+    private void RestartLevel()
     {
         SceneManager.LoadScene("GameScene");
     }
