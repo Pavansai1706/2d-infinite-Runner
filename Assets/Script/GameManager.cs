@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private int randomIndex;
     [SerializeField] private Color[] colorToChange;
 
+
     private void Awake()
     {
         if (Instance == null)
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
         currentText.text = PlayerPrefs.GetInt("Score").ToString();
         highScoreText.text = PlayerPrefs.GetInt("HighScore").ToString();
 
-      
+   
     }
 
    
@@ -55,27 +56,37 @@ public class GameManager : MonoBehaviour
         randomIndex = Random.Range(0, colorToChange.Length);
         ApplyColor();
     }
-
     public void GameOver()
     {
+
+       
+        // Play game over sound
+        FindObjectOfType<AudioManager>().Play("GameOver");
+
+        // Update high score if current score is higher
         if (score > PlayerPrefs.GetInt("HighScore"))
         {
             PlayerPrefs.SetInt("HighScore", score);
         }
 
+        // Save current score and high score to PlayerPrefs
         PlayerPrefs.SetInt("Score", score);
 
+        // Update UI text
         currentText.text = PlayerPrefs.GetInt("Score").ToString();
         highScoreText.text = PlayerPrefs.GetInt("HighScore").ToString();
 
-        
-      
+        // Show game over panel
         GameOverPanel.SetActive(true);
+        Time.timeScale = 0;
     }
+
 
     private void RestartLevel()
     {
+        
         SceneManager.LoadScene("GameScene");
+        Time.timeScale = 1;
     }
 
     void ApplyColor()

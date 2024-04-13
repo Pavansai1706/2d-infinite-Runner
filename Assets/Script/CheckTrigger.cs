@@ -9,12 +9,14 @@ public class CheckTrigger : MonoBehaviour
     {
         if (other.CompareTag(COIN))
         {
+            FindObjectOfType<AudioManager>().Play(COIN);
             GameManager.Instance.AddScore(); // Calls the public method
             Destroy(other.gameObject);
         }
 
         if (other.CompareTag(WALL))
         {
+            FindObjectOfType<AudioManager>().Play("GameOver");
             GameManager.Instance.GameOver(); // Calls the public method
         }
     }
