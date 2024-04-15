@@ -66,20 +66,6 @@ public class AudioManager : MonoBehaviour
 
         s.source.Stop();
     }
-    public void StopAllSounds()
-    {
-        foreach (Sound s in sounds)
-        {
-            s.source.Stop();
-        }
-    }
-
-    public void RestartAllSounds()
-    {
-        foreach (Sound s in sounds)
-        {
-            s.source.Play();
-        }
-    }
+    
 
 }
