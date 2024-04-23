@@ -9,19 +9,22 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    int score;
+    private int score;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private TMP_Text currentText;
     [SerializeField] private TMP_Text highScoreText;
     [SerializeField] private Button restartButton;
 
-    public Camera mainCam;
-    
+    private const string SCORE = "Score";
+    private const string HIGHSCORE = "HighScore";
+    private const string GAMESCENE = "GameScene";
 
+    public Camera mainCam;
     private int randomIndex;
     [SerializeField] private Color[] colorToChange;
 
+    private AudioManager audioManager; // Declare AudioManager variable
 
     private void Awake()
     {
@@ -29,67 +32,57 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        randomIndex = Random.Range(0, colorToChange.Length);
-        ChangeColor();
+
+        audioManager = FindObjectOfType<AudioManager>(); // Find and assign AudioManager
     }
 
     private void Start()
     {
         score = 0;
-        scoreText.text = score.ToString(); // Set score text to the initial score value
+        scoreText.text = score.ToString();
         GameOverPanel.SetActive(false);
         restartButton.onClick.RemoveAllListeners();
         restartButton.onClick.AddListener(RestartLevel);
 
-        currentText.text = PlayerPrefs.GetInt("Score").ToString();
-        highScoreText.text = PlayerPrefs.GetInt("HighScore").ToString();
-
-   
+        currentText.text = PlayerPrefs.GetInt(SCORE).ToString();
+        highScoreText.text = PlayerPrefs.GetInt(HIGHSCORE).ToString();
     }
-
-   
 
     public void AddScore()
     {
         score++;
         scoreText.text = score.ToString();
-        randomIndex = Random.Range(0, colorToChange.Length);
         ApplyColor();
     }
+
     public void GameOver()
     {
-
-       
-        // Play game over sound
-        FindObjectOfType<AudioManager>().Play("GameOver");
-
-        // Update high score if current score is higher
-        if (score > PlayerPrefs.GetInt("HighScore"))
+        if (audioManager != null)
         {
-            PlayerPrefs.SetInt("HighScore", score);
+            audioManager.PlaySound(SoundName.GameOver); // Play GameOver sound
         }
 
-        // Save current score and high score to PlayerPrefs
-        PlayerPrefs.SetInt("Score", score);
+        if (score > PlayerPrefs.GetInt(HIGHSCORE))
+        {
+            PlayerPrefs.SetInt(HIGHSCORE, score);
+        }
 
-        // Update UI text
-        currentText.text = PlayerPrefs.GetInt("Score").ToString();
-        highScoreText.text = PlayerPrefs.GetInt("HighScore").ToString();
+        PlayerPrefs.SetInt(SCORE, score);
 
-        // Show game over panel
+        currentText.text = PlayerPrefs.GetInt(SCORE).ToString();
+        highScoreText.text = PlayerPrefs.GetInt(HIGHSCORE).ToString();
+
         GameOverPanel.SetActive(true);
         Time.timeScale = 0;
     }
 
-
     private void RestartLevel()
     {
-        
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene(GAMESCENE);
         Time.timeScale = 1;
     }
 
-    void ApplyColor()
+    private void ApplyColor()
     {
         if (score >= 2)
         {
@@ -101,9 +94,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChangeColor()
+    private void ChangeColor()
     {
+        randomIndex = Random.Range(0, colorToChange.Length);
         mainCam.backgroundColor = colorToChange[randomIndex];
-       
     }
 }

@@ -1,10 +1,11 @@
 using UnityEngine;
 using System;
-using UnityEngine.Audio;
 
+
+[System.Serializable]
 public class AudioManager : MonoBehaviour
 {
-   [SerializeField] private Sound[] sounds;
+    [SerializeField] private Sound[] sounds;
 
     public static AudioManager Instance;
 
@@ -20,43 +21,38 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-
         DontDestroyOnLoad(gameObject);
         foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
-
-
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
         }
     }
-    public void Start()
-    {
-        //Play("Theme");
-        Play("WindTheme");
 
+    private void Start()
+    {
+        PlaySound(SoundName.Jump); // Example: playing Jump sound
     }
 
-
-    public void Play(string name)
+    public void PlaySound(SoundName soundName)
     {
-        Sound s = Array.Find(sounds, Sound => Sound.name == name);
+        Sound s = GetSound(soundName);
 
         if (s == null)
         {
-            
+           
             return;
         }
 
         s.source.Play();
     }
 
-    private void Stop(string name)
+    public void StopSound(SoundName soundName)
     {
-        Sound s = Array.Find(sounds, Sound => Sound.name == name);
+        Sound s = GetSound(soundName);
 
         if (s == null)
         {
@@ -66,6 +62,9 @@ public class AudioManager : MonoBehaviour
 
         s.source.Stop();
     }
-    
 
+    private Sound GetSound(SoundName soundName)
+    {
+        return Array.Find(sounds, sound => sound.name == soundName);
+    }
 }

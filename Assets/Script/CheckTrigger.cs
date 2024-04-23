@@ -5,19 +5,33 @@ public class CheckTrigger : MonoBehaviour
     private const string COIN = "Coin";
     private const string WALL = "Wall";
 
+    private AudioManager audioManager; // Declare AudioManager variable
+
+    private void Start()
+    {
+        audioManager = FindObjectOfType<AudioManager>(); // Find and assign AudioManager
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(COIN))
         {
-            FindObjectOfType<AudioManager>().Play(COIN);
-            GameManager.Instance.AddScore(); // Calls the public method
+            if (audioManager != null)
+            {
+                audioManager.PlaySound(SoundName.Coin); // Play Coin sound
+            }
+            GameManager.Instance.AddScore(); // Calls the AddScore method
             Destroy(other.gameObject);
         }
 
         if (other.CompareTag(WALL))
         {
-            FindObjectOfType<AudioManager>().Play("GameOver");
-            GameManager.Instance.GameOver(); // Calls the public method
+            if (audioManager != null)
+            {
+                audioManager.PlaySound(SoundName.GameOver); // Play GameOver sound
+            }
+            GameManager.Instance.GameOver(); // Calls the GameOver method
         }
     }
 }
+

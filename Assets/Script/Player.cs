@@ -1,36 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]private float JumpSpeed;
+    [SerializeField] private float jumpSpeed;
     private Rigidbody2D rb;
 
-    [SerializeField] private Transform GroundCheck;
-    [SerializeField] private float CheckRadius;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float checkRadius;
     [SerializeField] private LayerMask whatIsGround;
-    [SerializeField] private bool isGrounded;
+    private bool isGrounded;
 
     [SerializeField] private int maxJumpValue;
-    int maxJump;
+    private int maxJump;
+
+    private AudioManager audioManager;
 
     private void Start()
     {
         maxJump = maxJumpValue;
         rb = GetComponent<Rigidbody2D>();
+        audioManager = AudioManager.Instance; // Cache reference to AudioManager
     }
 
     private void Update()
     {
-        isGrounded = Physics2D.OverlapCircle(GroundCheck.position, CheckRadius, whatIsGround);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
-        if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0 )
+        if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
         {
             maxJump--;
             Jump();
         }
-        else if(Input.GetKeyDown(KeyCode.Space) && maxJump == 0 && isGrounded)
+        else if (Input.GetKeyDown(KeyCode.Space) && maxJump == 0 && isGrounded)
         {
             Jump();
         }
@@ -39,17 +40,16 @@ public class Player : MonoBehaviour
         {
             maxJump = maxJumpValue;
         }
-        if(isGrounded == false)
+        if (!isGrounded)
         {
-            FindObjectOfType<AudioManager>().Play("Land");
+            audioManager.PlaySound(SoundName.Land); // Play sound using enum
         }
-
     }
-    void Jump()
-    {
-        FindObjectOfType<AudioManager>().Play("Jump");
-        rb.velocity = Vector2.zero;
-        rb.AddForce(new Vector2(0, JumpSpeed));
 
+    private void Jump()
+    {
+        audioManager.PlaySound(SoundName.Jump); // Play sound using enum
+        rb.velocity = Vector2.zero;
+        rb.AddForce(new Vector2(0, jumpSpeed));
     }
 }

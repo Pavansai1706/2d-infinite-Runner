@@ -1,10 +1,18 @@
 using UnityEngine.Audio;
 using UnityEngine;
 
+public enum SoundName
+{
+    Jump,
+    Land,
+    GameOver,
+    Coin
+}
+
 [System.Serializable]
 public class Sound
 {
-    public string name;
+    public SoundName name;
     public AudioClip clip;
 
     public bool loop;
@@ -14,6 +22,7 @@ public class Sound
     [Range(0.1f, 3f)]
     public float pitch;
 
-    [HideInInspector]
+    // Remove [HideInInspector] attribute
     public AudioSource source;
 }
+

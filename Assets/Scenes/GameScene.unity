@@ -681,25 +681,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: Jump
+  - name: 0
     clip: {fileID: 8300000, guid: ede68ec1021a38342a040437faf289a0, type: 3}
     loop: 0
     volume: 3
     pitch: 1
     source: {fileID: 0}
-  - name: Land
+  - name: 1
     clip: {fileID: 8300000, guid: 5f436f912d9b15e488d45235eeef9c17, type: 3}
     loop: 0
     volume: 3
     pitch: 1
     source: {fileID: 0}
-  - name: GameOver
+  - name: 2
     clip: {fileID: 8300000, guid: 9e68eb58dc2bc804da0984562d4b6c30, type: 3}
     loop: 0
     volume: 3
     pitch: 1
     source: {fileID: 0}
-  - name: Coin
+  - name: 3
     clip: {fileID: 8300000, guid: c5a59af58e5dc96469ffafa0acdeb0b2, type: 3}
     loop: 0
     volume: 3
@@ -1793,13 +1793,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 864958a07377696468c216c2b3a8ef6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpSpeed: 390
-  GroundCheck: {fileID: 1789488650}
-  CheckRadius: 0.2
+  jumpSpeed: 390
+  groundCheck: {fileID: 1789488650}
+  checkRadius: 0.2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  isGrounded: 0
   maxJumpValue: 1
 --- !u!61 &1927855125
 BoxCollider2D:
