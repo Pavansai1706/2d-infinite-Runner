@@ -9,7 +9,7 @@ public class CheckTrigger : MonoBehaviour
 
     private void Start()
     {
-        audioManager = FindObjectOfType<AudioManager>(); // Find and assign AudioManager
+        audioManager = AudioManager.Instance;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

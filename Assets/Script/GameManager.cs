@@ -32,8 +32,12 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-
-        audioManager = FindObjectOfType<AudioManager>(); // Find and assign AudioManager
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        audioManager = AudioManager.Instance;
     }
 
     private void Start()

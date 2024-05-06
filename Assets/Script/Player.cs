@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private int maxJumpValue;
     private int maxJump;
+    private const string GROUND = "Ground";
 
     private AudioManager audioManager;
 
@@ -21,30 +22,47 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         audioManager = AudioManager.Instance; // Cache reference to AudioManager
     }
-
     private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (maxJump > 0 || isGrounded)
+            {
+                maxJump--;
+                Jump();
+            }
+        }
+
+        if (!isGrounded && IsJumping())
+        {
+            CheckGround(); // Ground check only when player jumps
+        }
+    }
+
+    private bool IsJumping()
+    {
+        return Input.GetKeyDown(KeyCode.Space);
+    }
+
+    private void CheckGround()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
-        if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
-        {
-            maxJump--;
-            Jump();
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && maxJump == 0 && isGrounded)
-        {
-            Jump();
-        }
-
-        if (isGrounded)
-        {
-            maxJump = maxJumpValue;
-        }
         if (!isGrounded)
         {
             audioManager.PlaySound(SoundName.Land); // Play sound using enum
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag(GROUND))
+        {
+            isGrounded = true;
+            maxJump = maxJumpValue;
+        }
+    }
+
 
     private void Jump()
     {
